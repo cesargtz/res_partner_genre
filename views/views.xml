@@ -1,0 +1,63 @@
+<odoo>
+  <data>
+    <!-- res partner view inherit -->
+    <record id="res_partner_genre" model="ir.ui.view">
+      <field name="name">res partner genre</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//form/sheet" position="before">
+            <header>
+              <button name="change_genre" string="Change genre" type="object" class="oe_highlight" 
+                      attrs="{'invisible':[('company_type','!=','person')]}">
+              </button>
+            </header>
+        </xpath>
+        <field name="function" position="before">
+            <field name="genre" widget="radio" attrs="{'invisible':[('company_type','!=','person')]}"/>
+        </field>
+      </field>
+    </record>
+    <!-- end res partner view inherit -->
+
+    <!-- pivot view -->
+    <record id="partner_pivot_view" model="ir.ui.view">
+      <field name="name">Genre pivot</field>
+      <field name="model">res.partner</field>
+      <field name="arch" type="xml">
+        <pivot string="Pivot View">
+          <field name="genre" type="row"/>
+          <!-- <field name="debit" type="measure"/> -->
+        </pivot>
+      </field>
+      </record>
+    <!-- end pivot view -->
+
+    <!-- graph view -->
+    <record id="partner_graph_view" model="ir.ui.view">
+      <field name="name">Genre graph</field>
+      <field name="model">res.partner</field>
+      <field name="arch" type="xml">
+        <graph string="Graph View" type="pie">
+          <field name="genre" type="row"/>
+          <!-- <field name="debit" type="measure"/> -->
+        </graph>
+      </field>
+      </record>
+      <!-- end graph view -->
+
+    <!-- Action -->
+    <act_window id="action_genre_pivot"
+                name="Genre percent"
+                res_model="res.partner"
+                view_mode="pivot,graph"
+                target="current"/>
+    <!-- Menu -->
+    <menuitem id="menu_partner_genre_pivot"
+        action="action_genre_pivot"
+        name="Genre percent"
+        sequence="3"
+        parent="contacts.menu_contacts"/>
+
+  </data>
+</odoo>
